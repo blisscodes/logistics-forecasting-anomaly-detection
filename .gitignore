@@ -16,6 +16,7 @@ venv/
 # Data files (keep raw data out of Git)
 data/*
 !data/README.md
+archive.zip
 
 # Jupyter
 .ipynb_checkpoints/

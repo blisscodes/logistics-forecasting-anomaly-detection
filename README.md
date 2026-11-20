@@ -51,6 +51,10 @@ The tables contain synthetic personal-looking fields (driver names, license
 numbers, dates of birth, fuel-card numbers). They are not used as features
 and are never published.
 
+Record counts in the Kaggle description differ from the archive (for
+example, 57,000+ loads described vs 85,410 in the archive); this project
+uses the archive as provided.
+
 ## Setup
 Requires Python 3.11 (developed on Windows, PowerShell).
 
@@ -78,7 +82,15 @@ docs/        data_dictionary.md, experiment_log.md
   operations.
 - Preliminary analysis shows little weekly or yearly pattern in daily load
   volume, so a simple average is a strong baseline.
-- `on_time_flag` does not match a plain comparison of scheduled and actual
-  times, so lateness is computed from the timestamps instead.
+- `on_time_flag` marks an event as on time only when it falls within 120
+  minutes of schedule in either direction, so it mixes early and late
+  arrivals. Lateness is computed from `scheduled_datetime` and
+  `actual_datetime` instead.
 - The dataset has no anomaly labels. Anomaly evaluation will use injected
   anomalies, which gives an optimistic estimate.
+- Delay and detention values appear uniformly distributed rather than
+  clustered around typical values, which is characteristic of a simulation;
+  anomaly evaluation relies on injected anomalies.
+- The dataset description states that timestamps are properly sequenced,
+  but 0.6% of loads (mostly on two short New York–Philadelphia routes) have
+  delivery recorded before pickup.
