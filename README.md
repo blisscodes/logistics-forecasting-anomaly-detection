@@ -4,8 +4,9 @@ Forecasts company-wide daily load volume 14 days ahead and flags unusual
 delivery operations (late deliveries, detention time, volume drops), using a
 synthetic trucking database. Portfolio project.
 
-**Status:** in progress. Data inventory and baseline forecasts are done;
-feature engineering and modeling are next. Last updated 2026-11-20.
+**Status:** in progress. Data inventory, baseline forecasts, calendar and lag
+features, and a feature pipeline are done; modeling is next. Last updated
+2026-11-20.
 
 ## Scope
 
@@ -67,11 +68,17 @@ pip install -r requirements.txt
 Then place the extracted dataset in `data/raw/` and open the notebooks in
 `notebooks/`.
 
+Build the features file (writes `data/processed/features.csv`):
+
+```powershell
+python -m src.pipeline
+```
+
 ## Repository structure
 ```text
 data/        raw and processed data (not tracked by Git)
 notebooks/   exploration and experiments
-src/         reusable code (planned)
+src/         data loading, features, and the pipeline
 tests/       tests (planned)
 app/         API and dashboard (planned)
 docs/        data_dictionary.md, experiment_log.md
