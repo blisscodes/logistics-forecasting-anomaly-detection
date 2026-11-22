@@ -1,7 +1,7 @@
 # Data Dictionary
 
-Last updated 2026-11-20. Facts are verified on the data unless marked "To
-verify"; patterns are checked on the training period only.
+Last updated 2026-11-22. Counts and ranges cover the full archive; shares,
+averages, and patterns come from the training period unless noted.
 
 ## Dataset overview
 
@@ -100,8 +100,12 @@ Only tables used so far are documented; others are added when inspected.
 
 - **Target:** company-wide daily load count. Splits and metrics are in the
   README.
-- **No weekly pattern:** weekday means range from 76.4 to 80.0 loads per day
-  in the training period, so simple averages beat weekly seasonal naive.
+- **Weak weekday effect, no seasonality:** weekday means range from 76.4
+  (Sunday) to 80.0 (Tuesday), which is statistically detectable (p = 0.008)
+  but explains about 2% of daily variance. There is no monthly pattern
+  (p = 0.72), no Q4 peak, and no yearly trend (training-period means 78.3,
+  77.2, 78.6). Simple averages are hard to beat; a weekday term may help
+  slightly.
 - **Routes are sparse:** 26% of route-days have zero loads (1.34 loads per
   route-day). Grouping by origin state also shows no signal beyond noise, so
   forecasts stay at the company level.

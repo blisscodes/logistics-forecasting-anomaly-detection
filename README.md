@@ -87,8 +87,9 @@ docs/        data_dictionary.md, experiment_log.md
 ## Limitations
 - The data is synthetic, so results describe this simulation, not real
   operations.
-- Preliminary analysis shows little weekly or yearly pattern in daily load
-  volume, so a simple average is a strong baseline.
+- Daily load volume shows only a weak weekday effect and no seasonal or
+  yearly pattern in the training period, so a simple average is a strong
+  baseline.
 - `on_time_flag` marks an event as on time only when it falls within 120
   minutes of schedule in either direction, so it mixes early and late
   arrivals. Lateness is computed from `scheduled_datetime` and
