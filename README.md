@@ -23,6 +23,42 @@ Models are compared on validation using MAE and WAPE against a weekly
 seasonal-naive baseline and a training-mean baseline. The test period is
 scored once, after the model is chosen.
 
+### Success criteria
+Set on 2026-11-24, before any model was scored.
+
+- **Bar:** the weekday-profile baseline on validation, MAE 7.16 and WAPE
+  9.12%. It is the strongest simple baseline and never loses to the plain
+  mean.
+- **Better:** validation MAE at least 0.10 below the bar and lower in at
+  least 4 of the 6 14-day windows.
+- **Tied:** within 0.10 of the bar either way. A tie is reported as a tie.
+- **Worse:** anything else.
+- **Check first:** an MAE below 6.8 is under the estimated noise floor and
+  is treated as a possible leak until shown otherwise.
+- Every result is also reported against seasonal naive (MAE 10.98) and the
+  plain mean (MAE 7.31).
+
+### Anomaly evaluation
+The dataset has no anomaly labels, so detectors are scored on anomalies
+injected into a copy of the data with a fixed seed (`SEED = 42`). Each
+injected anomaly is a window of consecutive days affecting one signal (for
+example, load volume down 30% for 5 days).
+
+- **Alert:** a day on which the detector flags a signal.
+- **Correct alert:** an alert on the same signal on a day inside an
+  injected window.
+- **Precision:** correct alerts divided by all alerts.
+- **Recall:** injected windows with at least one correct alert, divided by
+  all injected windows.
+- **Alert budget:** at most 10 alerts per day (initial design target, to be
+  evaluated, not a proven capability).
+
+Windows are scored as a whole, so catching any day of a multi-day anomaly
+counts as detecting it. The injection settings are fixed before the detector
+is built, so the detector is not tuned to the injection. Thresholds are set
+on the training period and scored on validation. Injected anomalies make
+these estimates optimistic; they say nothing about real operations.
+
 ### Anomaly definition
 A day is flagged when a daily signal deviates strongly from its recent norm:
 late-delivery rate and detention time (`delivery_events.csv`), safety
@@ -72,6 +108,12 @@ Build the features file (writes `data/processed/features.csv`):
 
 ```powershell
 python -m src.pipeline
+```
+
+Run the tests:
+
+```powershell
+python -m pytest
 ```
 
 Developed with Python 3.11.0. Exact package versions are pinned in
