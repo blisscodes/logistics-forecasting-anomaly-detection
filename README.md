@@ -74,6 +74,9 @@ Build the features file (writes `data/processed/features.csv`):
 python -m src.pipeline
 ```
 
+Developed with Python 3.11.0. Exact package versions are pinned in
+`requirements.txt`.
+
 ## Repository structure
 ```text
 data/        raw and processed data (not tracked by Git)

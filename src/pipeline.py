@@ -1,9 +1,11 @@
 # Run the whole chain: raw loads -> daily counts -> features -> saved file.
 from src.data import PROCESSED, build_daily, load_loads, validate_loads
 from src.features import build_features
+from src.config import set_seeds
 
 
 def main():
+    set_seeds()
     loads = validate_loads(load_loads())
     daily = build_daily(loads)
     features = build_features(daily)
