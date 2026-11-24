@@ -115,3 +115,26 @@ Only tables used so far are documented; others are added when inspected.
   `claim_amount`), and daily volume. There is no customer-complaint field.
 - **Not used as features:** driver names, license numbers, dates of birth,
   and fuel-card numbers.
+
+## Features
+
+Built by `src/features.py` (run `python -m src.pipeline`). Every feature for
+day D uses only information available 14 days before D, so a 14-day forecast
+can use it.
+
+| Feature | Definition | Latest date used | Why included | Leakage check |
+|---|---|---|---|---|
+| `dow`, `month`, `week`, `doy` | Weekday (0 = Monday), month, ISO week, day of year | D | Weak weekday effect (p = 0.008); the others test for seasonality | Date only; identical with or without later dates |
+| `is_month_end` | 1 on the last day of a month | D | Tests a month-end effect (none found: 76.1 vs 78.0 in training) | Same |
+| `is_holiday` | 1 on US federal holidays (pandas calendar) | D | Tests a holiday effect (none found: 77.4 vs 77.9 over 27 holidays) | Same |
+| `dow_sin`, `dow_cos`, `month_sin`, `month_cos`, `doy_sin`, `doy_cos` | Circular encodings so Sunday sits next to Monday and December next to January | D | Needed by linear models; harmless for trees | Same |
+| `lag_14`, `lag_21`, `lag_28` | Loads 14, 21, and 28 days earlier (same weekday as D) | D − 14 | Recent level of the same weekday; 14 is the shortest lag usable for a 14-day horizon | Poison test on 5 dates: identical |
+| `roll_mean_7`, `roll_mean_28` | Mean of the 7 or 28 days ending at D − 14 | D − 14 | Short- and longer-term level | Poison test: identical |
+| `roll_std_28` | Standard deviation of the 28 days ending at D − 14 | D − 14 | How jumpy volume has been | Poison test: identical |
+
+Rejected candidates: top-origin-state share and average route distance
+(28-day, shifted 14 days). Correlation with the target was 0.06 and 0.001 on
+the training period, below the noise level of 0.067.
+
+The first 41 days have empty lag and rolling features and must be dropped
+before modeling.
