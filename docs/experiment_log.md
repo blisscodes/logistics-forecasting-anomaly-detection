@@ -35,7 +35,9 @@ All scores are on the validation period.
 | 003a | 2026-11-19 | Training mean | 14-day | 7.31 | 9.31% | Done |
 | 003b | 2026-11-19 | Trailing 28-day mean | 14-day | 7.27 | 9.27% | Done |
 | 003c | 2026-11-19 | Weekday profile | 14-day | 7.16 | 9.12% | Done |
-| 004 | 2026-11-24 | Ridge (alpha 10), 18 features | 14-day | 7.33 | 9.33% | Done |
+| 004 | 2026-11-26 | Ridge (alpha 10), 18 features | 14-day | 7.33 | 9.33% | Done |
+| 005 | 2026-11-26 | Ridge (alpha 10), 12 calendar features | 14-day | 7.28 | 9.28% | Done |
+| 006 | 2026-11-26 | HistGradientBoosting (depth 3, rate 0.05, 200 iterations), 18 features | 14-day | 7.13 | 9.08% | Done |
 
 ## Experiments
 
@@ -85,13 +87,69 @@ All scores are on the validation period.
 - **Implication:** models should be compared against an MAE of about 7.2 to
   7.3, not only against seasonal naive.
 
-## Planned
+### 004: Ridge, all features
 
-- 004: one compact model on calendar features and lags of at least 14 days,
-  compared with 003 on the same validation windows.
-- 005: prediction intervals from validation residuals, with a coverage check.
-- Anomaly detection is evaluated in its own entries once synthetic
-  anomalies exist.
+**Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
+
+- **Goal:** first compact model on calendar and lag features.
+- **Method:** standardized features, Ridge with alpha 10, fit on train only
+  (887 rows), scored on the six validation windows.
+- **Results:** MAE 7.33, WAPE 9.33%. Lower than 3 of 6 windows against the
+  bar.
+- **Observations:**
+  - Worse than the bar (7.16) by the success rule, but the gap (about 0.17)
+    is only about 1.5 times the window-to-window noise.
+  - Much better than seasonal naive (10.98) and about equal to the plain mean
+    (7.31).
+  - Training MAE 6.69 is below the estimated noise floor, so the model fits
+    noise. Its largest weights were month and day-of-year terms, which EDA
+    found carry no seasonality.
+- **Next:** the fixed experiment set (WB26).
+
+### 005: Ridge, calendar features only
+
+**Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
+
+- **Goal:** test whether lag and rolling features add anything.
+- **Results:** MAE 7.28, WAPE 9.28%; lower than the bar in 2 of 6 windows.
+- **Observations:** removing the lag features changed MAE from 7.33 to 7.28,
+  so they did not help. Still worse than the bar (7.16).
+
+### 006: Gradient boosting, all features
+
+**Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
+
+- **Goal:** test whether a nonlinear model finds structure Ridge cannot.
+- **Method:** depth 3, learning rate 0.05, 200 iterations, seed 42.
+- **Results:** MAE 7.13, WAPE 9.08%; lower than the bar in 2 of 6 windows.
+- **Observations:** tied with the bar (within 0.10). No evidence of structure
+  beyond the weekday effect.
+
+## Planned experiments (fixed on 2026-11-26, before running)
+
+Question: does anything beat the weekday-profile bar (validation MAE 7.16)?
+All runs use the same split, the same 18 features unless stated, and
+`SEED = 42`. The test period is not scored until the final model is chosen.
+
+| ID | Model | Features | Settings | Question |
+|---|---|---|---|---|
+| 004 | Ridge (standardized) | 18 | alpha 10 | Compact model (done) |
+| 005 | Ridge (standardized) | 12 calendar | alpha 10 | Do lag and rolling features add anything? |
+| 006 | HistGradientBoosting | 18 | depth 3, learning rate 0.05, 200 iterations | Does a nonlinear model find structure Ridge cannot? |
+| 007a-c | Ridge (standardized) | 18 | alpha 1, 100, 1000 | Does stronger shrinkage reduce overfitting? |
+| 008a-b | HistGradientBoosting | 18 | depth 2 and 4, other settings as 006 | Does tree depth matter? |
+
+**Stop rule:** no runs beyond this table, no new features, and no test
+scoring.
+
+**Choosing the final model:** among runs rated better or tied under the
+success criteria, take the lowest validation MAE; when runs are tied with
+each other, prefer the simpler model. If none is better than the bar, the
+weekday-profile baseline is the final model. The choice and a one-line reason
+go in the decision log.
+
+**Later:** prediction intervals from validation residuals, after the final
+model is chosen.
 
 <!-- Template for new entries:
 ### NNN: Short name
