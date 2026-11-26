@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.metrics import mae, scores, wape
+from src.metrics import mae, scores, wape, window_mae, windows_won
 
 
 def test_mae_known_example():
@@ -33,3 +33,21 @@ def test_length_mismatch_fails():
 def test_nan_fails():
     with pytest.raises(ValueError, match="NaN"):
         wape([1, 2, 3], [1, float("nan"), 3])
+        
+
+def test_window_mae_known():
+    actual = [10] * 28
+    pred = [12] * 14 + [9] * 14
+    assert window_mae(actual, pred) == [2.0, 1.0]
+
+
+def test_windows_won_counts():
+    actual = [10] * 28
+    pred = [10] * 14 + [13] * 14
+    bar = [11] * 14 + [11] * 14
+    assert windows_won(actual, pred, bar) == 1
+
+
+def test_window_length_must_divide():
+    with pytest.raises(ValueError, match="multiple of 14"):
+        window_mae([1] * 20, [1] * 20)

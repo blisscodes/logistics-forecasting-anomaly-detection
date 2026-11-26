@@ -24,3 +24,17 @@ def wape(actual, pred):
 
 def scores(actual, pred):
     return round(mae(actual, pred), 2), f"{wape(actual, pred):.2%}"
+
+
+def window_mae(actual, pred, size=14):
+    a, p = _clean(actual, pred)
+    errs = np.abs(a - p)
+    if len(errs) % size:
+        raise ValueError(f"length {len(errs)} is not a multiple of {size}")
+    return [float(x) for x in errs.reshape(-1, size).mean(axis=1)]
+
+
+def windows_won(actual, pred, bar_pred, size=14):
+    mine = window_mae(actual, pred, size)
+    bar = window_mae(actual, bar_pred, size)
+    return sum(m < b for m, b in zip(mine, bar))
