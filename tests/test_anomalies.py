@@ -50,3 +50,12 @@ def test_windows_do_not_overlap_within_a_signal():
 def test_impossible_placement_fails():
     with pytest.raises(ValueError, match="could not place"):
         place_windows(10, 5, 3, np.random.default_rng(1))
+
+def test_all_labels_cover_every_seed():
+    labels = make_all_labels(make_signals(), range(42, 47))
+    assert labels.shape == (30, 4) and labels["seed"].nunique() == 5
+
+
+def test_all_labels_are_repeatable():
+    a = make_all_labels(make_signals(), range(42, 45))
+    assert a.equals(make_all_labels(make_signals(), range(42, 45)))
