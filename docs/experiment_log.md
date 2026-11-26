@@ -38,6 +38,9 @@ All scores are on the validation period.
 | 004 | 2026-11-26 | Ridge (alpha 10), 18 features | 14-day | 7.33 | 9.33% | Done |
 | 005 | 2026-11-26 | Ridge (alpha 10), 12 calendar features | 14-day | 7.28 | 9.28% | Done |
 | 006 | 2026-11-26 | HistGradientBoosting (depth 3, rate 0.05, 200 iterations), 18 features | 14-day | 7.13 | 9.08% | Done |
+| 007a | 2026-11-26 | Ridge (alpha 1), 18 features | 14-day | 7.32 | 9.33% | Done |
+| 007b | 2026-11-26 | Ridge (alpha 100), 18 features | 14-day | 7.32 | 9.32% | Done |
+| 007c | 2026-11-26 | Ridge (alpha 1000), 18 features | 14-day | 7.30 | 9.30% | Done |
 
 ## Experiments
 
@@ -124,6 +127,17 @@ All scores are on the validation period.
 - **Results:** MAE 7.13, WAPE 9.08%; lower than the bar in 2 of 6 windows.
 - **Observations:** tied with the bar (within 0.10). No evidence of structure
   beyond the weekday effect.
+
+### 007: Ridge strength
+
+**Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
+
+- **Goal:** test whether stronger regularization fixes the overfitting seen in 004.
+- **Method:** same as 004 with alpha 1, 100, and 1000.
+- **Results:** MAE 7.32, 7.32, and 7.30 (004 was 7.33 at alpha 10).
+- **Observations:** a thousandfold change in strength moved MAE by 0.03, so
+  regularization is not the limiting factor. All three are rated worse than
+  the bar (7.16).
 
 ## Planned experiments (fixed on 2026-11-26, before running)
 

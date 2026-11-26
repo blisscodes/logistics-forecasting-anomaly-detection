@@ -5,3 +5,6 @@ run_id,date,model,features,settings,seed,valid_mae,valid_wape,windows_won,notes
 004,2026-11-26,Ridge,all18,"{""alpha"": 10.0, ""scaler"": ""standard""}",42,7.33,9.33%,3,
 005,2026-11-26,Ridge,calendar12,"{""alpha"": 10.0, ""scaler"": ""standard""}",42,7.28,9.28%,2,
 006,2026-11-26,HistGradientBoosting,all18,"{""learning_rate"": 0.05, ""max_depth"": 3, ""max_iter"": 200}",42,7.13,9.08%,2,
+007a,2026-11-26,Ridge,all18,"{""alpha"": 1.0, ""scaler"": ""standard""}",42,7.32,9.33%,3,
+007b,2026-11-26,Ridge,all18,"{""alpha"": 100.0, ""scaler"": ""standard""}",42,7.32,9.32%,3,
+007c,2026-11-26,Ridge,all18,"{""alpha"": 1000.0, ""scaler"": ""standard""}",42,7.3,9.30%,2,
