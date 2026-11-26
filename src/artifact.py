@@ -28,8 +28,8 @@ def write_json(path, data):
 
 
 def file_checksum(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-
+    data = Path(path).read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
 
 def save_model(name, version, weekday_means, lower_offset, upper_offset,
                level=0.8, root=MODELS):

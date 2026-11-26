@@ -67,3 +67,10 @@ def test_metadata_has_required_keys(tmp_path):
     for key in ["model_sha256", "training_period", "validation_metrics",
                 "seed", "git", "environment", "experiments"]:
         assert key in meta
+
+def test_checksum_ignores_windows_line_endings(tmp_path):
+    lf = tmp_path / "lf.json"
+    crlf = tmp_path / "crlf.json"
+    lf.write_bytes(b'{\n  "x": 1\n}\n')
+    crlf.write_bytes(b'{\r\n  "x": 1\r\n}\r\n')
+    assert file_checksum(lf) == file_checksum(crlf)
