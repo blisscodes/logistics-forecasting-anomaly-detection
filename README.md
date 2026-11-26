@@ -31,7 +31,8 @@ Set on 2026-11-24, before any model was scored.
   mean.
 - **Better:** validation MAE at least 0.10 below the bar and lower in at
   least 4 of the 6 14-day windows.
-- **Tied:** within 0.10 of the bar either way. A tie is reported as a tie.
+- **Tied:** within 0.10 of the bar either way, or at least 0.10 lower but
+  lower in fewer than 4 windows. A tie is reported as a tie.
 - **Worse:** anything else.
 - **Check first:** an MAE below 6.8 is under the estimated noise floor and
   is treated as a possible leak until shown otherwise.

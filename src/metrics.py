@@ -38,3 +38,18 @@ def windows_won(actual, pred, bar_pred, size=14):
     mine = window_mae(actual, pred, size)
     bar = window_mae(actual, bar_pred, size)
     return sum(m < b for m, b in zip(mine, bar))
+
+
+BAR_MAE = 7.16
+MARGIN = 0.10
+FLOOR = 6.8
+
+
+def verdict(valid_mae, windows_won, bar=BAR_MAE, margin=MARGIN, floor=FLOOR):
+    if valid_mae < floor:
+        return "check for leakage"
+    if valid_mae <= bar - margin:
+        return "better" if windows_won >= 4 else "tied"
+    if valid_mae <= bar + margin:
+        return "tied"
+    return "worse"

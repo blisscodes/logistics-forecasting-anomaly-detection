@@ -15,7 +15,7 @@ Shared by all experiments unless an entry says otherwise.
   - Train: 2022-01-01 to 2024-07-16 (928 days)
   - Validation: 2024-07-17 to 2024-10-08 (84 days)
   - Test: 2024-10-09 to 2024-12-31 (84 days), not yet scored
-- **Metrics** (lower is better):
+- **Metrics**:
   - MAE: mean absolute error, in loads per day
   - WAPE: total absolute error divided by total actual loads
 - **Evaluation modes:**
@@ -35,6 +35,7 @@ All scores are on the validation period.
 | 003a | 2026-11-19 | Training mean | 14-day | 7.31 | 9.31% | Done |
 | 003b | 2026-11-19 | Trailing 28-day mean | 14-day | 7.27 | 9.27% | Done |
 | 003c | 2026-11-19 | Weekday profile | 14-day | 7.16 | 9.12% | Done |
+| 004 | 2026-11-24 | Ridge (alpha 10), 18 features | 14-day | 7.33 | 9.33% | Done |
 
 ## Experiments
 
