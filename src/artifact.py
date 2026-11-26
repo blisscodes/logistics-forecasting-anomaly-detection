@@ -1,7 +1,12 @@
-# Save the final model as a small, versioned, checksummed artifact.
 import hashlib
 import json
+import subprocess
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
 
 from src.data import ROOT
 
@@ -43,3 +48,33 @@ def save_model(name, version, weekday_means, lower_offset, upper_offset,
     }
     write_json(folder / "model.json", model)
     return folder
+
+def git_info(cwd=ROOT):
+    def run(*args):
+        return subprocess.run(["git", *args], cwd=cwd, capture_output=True,
+                              text=True, check=True).stdout.strip()
+    try:
+        return {"commit": run("rev-parse", "HEAD"),
+                "uncommitted_changes": bool(run("status", "--porcelain"))}
+    except (OSError, subprocess.CalledProcessError):
+        return {"commit": "unknown", "uncommitted_changes": None}
+
+
+def build_metadata(folder, train_range, valid_range, valid_metrics, runs, seed, git):
+    folder = Path(folder)
+    return {
+        "name": folder.name,
+        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "model_file": "model.json",
+        "model_sha256": file_checksum(folder / "model.json"),
+        "training_period": train_range,
+        "validation_period": valid_range,
+        "features": "none (weekday of the forecast date)",
+        "seed": seed,
+        "validation_metrics": valid_metrics,
+        "test_result": "see docs/experiment_log.md, entry T1",
+        "experiments": runs,
+        "git": git,
+        "environment": {"python": sys.version.split()[0],
+                        "pandas": pd.__version__, "numpy": np.__version__},
+    }

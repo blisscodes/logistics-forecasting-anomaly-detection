@@ -1,0 +1,43 @@
+{
+  "created_utc": "2026-11-26T02:50:11+00:00",
+  "environment": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.1",
+    "python": "3.11.0"
+  },
+  "experiments": [
+    "002b",
+    "003a",
+    "003c",
+    "004",
+    "005",
+    "006",
+    "007a",
+    "007b",
+    "007c",
+    "008a",
+    "008b"
+  ],
+  "features": "none (weekday of the forecast date)",
+  "git": {
+    "commit": "4e1ded05e8474c3699f36a54fa5adf6024b6f79a",
+    "uncommitted_changes": true
+  },
+  "model_file": "model.json",
+  "model_sha256": "f16592ce0ab30f4196f6c09b8de2790d182cc42f2ee695911496f723de334fc5",
+  "name": "weekday_profile_v1",
+  "seed": 42,
+  "test_result": "see docs/experiment_log.md, entry T1",
+  "training_period": [
+    "2022-01-01",
+    "2024-07-16"
+  ],
+  "validation_metrics": {
+    "mae": 7.16,
+    "wape": "9.12%"
+  },
+  "validation_period": [
+    "2024-07-17",
+    "2024-10-08"
+  ]
+}
