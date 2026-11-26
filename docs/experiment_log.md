@@ -151,6 +151,16 @@ All scores are on the validation period.
 - **Observations:** all three depths are within 0.10 of the bar and rated
   tied; depth has no meaningful effect.
 
+### Comparison of runs 002-008
+
+- No run is rated better than the weekday-profile bar (7.16). Four runs are
+  tied with it (003c, 006, 008a, 008b); the rest are worse.
+- Splitting validation into two halves, the ranking of runs barely agrees
+  (rank correlation 0.05): the weekday profile was best in the first half and
+  eighth in the second. Differences among runs other than seasonal naive are
+  noise.
+- Seasonal naive is last in both halves; that difference is real.
+
 ## Planned experiments (fixed on 2026-11-26, before running)
 
 Question: does anything beat the weekday-profile bar (validation MAE 7.16)?
