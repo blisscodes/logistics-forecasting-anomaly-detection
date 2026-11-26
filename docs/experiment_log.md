@@ -191,14 +191,18 @@ a one-line reason go in the decision log.
 
 **Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
 
-- **Goal:** one-time check of the final model on data never used for choices.
-- **Method:** weekday profile fit on train; 80% interval offsets from
-  validation residuals; baselines scored the same way.
-- **Results:** final model MAE 7.24, WAPE 9.35%; training mean MAE 7.17; seasonal
-  naive MAE 10.77; interval coverage 0.81.
-- **Observations:** compared with validation (MAE 7.16) and the ranges set
-  before scoring: ___.
-- **Note:** test scored once; nothing changed afterward.
+- **Observations:** the final model's test MAE (7.24) is within the pre-set
+  normal range (6.0 to 8.4) and only 0.08 above its validation MAE (7.16);
+  WAPE rose from 9.12% to 9.35%. Interval coverage (0.81) matches the nominal
+  80% and sits inside the expected 0.71 to 0.89. Seasonal naive (10.77) is
+  again about 1.5 times worse than the other two, as on validation. The plain
+  training mean (7.17) scored 0.07 better than the weekday profile on test,
+  which is within noise (on validation the weekday profile was 0.15 better),
+  so the two are effectively tied. The model was not changed because of this.
+- **Note:** test scored once; nothing changed afterward. The cell was run
+  before this entry was drafted, and a second run was blocked by
+  `reports/test_scored.txt`. The normal ranges (MAE 6.0 to 8.4, coverage
+  0.71 to 0.89) were fixed in the WB34 instructions before scoring.
 
 **Later:** prediction intervals from validation residuals, after the final
 model is chosen.

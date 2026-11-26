@@ -156,3 +156,32 @@ docs/        data_dictionary.md, experiment_log.md
 - The dataset description states that timestamps are properly sequenced,
   but 0.6% of loads (mostly on two short New York–Philadelphia routes) have
   delivery recorded before pickup.
+
+## Results
+
+Forecast of company-wide daily loads, 14 days ahead. MAE is the average miss
+in loads per day (lower is better), on the 84-day validation period.
+
+| Method | MAE | WAPE |
+|---|---:|---:|
+| Weekly seasonal naive (14-day) | 10.98 | 13.98% |
+| Plain training mean | 7.31 | 9.31% |
+| **Weekday profile (final model)** | **7.16** | **9.12%** |
+| Gradient boosting, depth 3 (best learned model) | 7.13 | 9.08% |
+| Ridge, all features | 7.33 | 9.33% |
+
+Eleven runs were tracked in `reports/experiment_runs.csv`. None beat the
+weekday profile by the pre-set margin (0.10), so the simplest model was kept.
+Daily volume behaves like random counts around a stable average with a weak
+weekday effect, which is why seasonal naive is the clear loser and learned
+models cannot improve on a weekday average.
+
+**Test period (scored once):** MAE 7.24, interval coverage 0.81.
+
+Forecast with the saved model:
+
+```powershell
+python -m src.predict --start 2025-01-01
+```
+
+Each forecast comes with an 80% interval of about -10.8 to +12.5 loads.
