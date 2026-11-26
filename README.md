@@ -185,3 +185,29 @@ python -m src.predict --start 2025-01-01
 ```
 
 Each forecast comes with an 80% interval of about -10.8 to +12.5 loads.
+
+### Injected anomalies
+Three types are injected into a copy of the validation signals (daily load
+volume, late-delivery rate, and average detention):
+
+| Type | Change | Length | Size in typical day-to-day variation |
+|---|---|---|---|
+| Volume drop | 20% fewer loads | 5 days | about 1.8 |
+| Late-rate spike | +10 percentage points | 4 days | about 1.8 |
+| Detention rise | +30 minutes | 5 days | about 3.4 |
+
+Each draw places two windows per type, at least 7 days apart within a type,
+using a fixed seed; results are averaged over 20 draws (seeds 42 to 61). The
+injection settings were fixed on 2026-11-28, before the detector was built,
+and are not changed afterward. The original signals are never modified, and
+the labels are stored separately from all training and feature data.
+
+### Anomaly detector
+For each signal, a day's score is how many typical day-to-day variations it
+sits from the training median (robust, using the median absolute deviation)
+in the harmful direction (volume down, late rate up, detention up), averaged
+over 3 days. A signal alerts when its score exceeds the 99th percentile of the
+same score on the clean training days (volume 1.26, late rate 1.26,
+detention 1.35). On clean training days this raises about 1.1% of signal-days
+(30 of 2,763). Thresholds were frozen on 2026-11-28 before any evaluation on
+the injected validation data.

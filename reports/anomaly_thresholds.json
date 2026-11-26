@@ -1,0 +1,26 @@
+{
+  "baseline": {
+    "center": {
+      "detention": 106.76136363636364,
+      "late_rate": 0.44594594594594594,
+      "volume": 78.0
+    },
+    "scale": {
+      "detention": 8.442957727272738,
+      "late_rate": 0.05457847157502333,
+      "volume": 8.8956
+    }
+  },
+  "frozen": "2026-11-28",
+  "quantile": 0.99,
+  "roll_days": 3,
+  "thresholds": {
+    "detention": 1.34897093518492,
+    "late_rate": 1.2582951480162674,
+    "volume": 1.2590494176896412
+  },
+  "training_period": [
+    "2022-01-06",
+    "2024-07-16"
+  ]
+}
