@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-11-26T02:50:11+00:00",
+  "created_utc": "2026-11-26T02:52:25+00:00",
   "environment": {
     "numpy": "2.4.6",
     "pandas": "3.1.1",
@@ -20,8 +20,8 @@
   ],
   "features": "none (weekday of the forecast date)",
   "git": {
-    "commit": "4e1ded05e8474c3699f36a54fa5adf6024b6f79a",
-    "uncommitted_changes": true
+    "commit": "91c710a33e2fe35fce702b8a92f9b43a0a168709",
+    "uncommitted_changes": false
   },
   "model_file": "model.json",
   "model_sha256": "f16592ce0ab30f4196f6c09b8de2790d182cc42f2ee695911496f723de334fc5",
