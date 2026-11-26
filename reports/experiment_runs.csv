@@ -8,3 +8,5 @@ run_id,date,model,features,settings,seed,valid_mae,valid_wape,windows_won,notes
 007a,2026-11-26,Ridge,all18,"{""alpha"": 1.0, ""scaler"": ""standard""}",42,7.32,9.33%,3,
 007b,2026-11-26,Ridge,all18,"{""alpha"": 100.0, ""scaler"": ""standard""}",42,7.32,9.32%,3,
 007c,2026-11-26,Ridge,all18,"{""alpha"": 1000.0, ""scaler"": ""standard""}",42,7.3,9.30%,2,
+008a,2026-11-26,HistGradientBoosting,all18,"{""learning_rate"": 0.05, ""max_depth"": 2, ""max_iter"": 200}",42,7.17,9.13%,2,
+008b,2026-11-26,HistGradientBoosting,all18,"{""learning_rate"": 0.05, ""max_depth"": 4, ""max_iter"": 200}",42,7.24,9.23%,3,

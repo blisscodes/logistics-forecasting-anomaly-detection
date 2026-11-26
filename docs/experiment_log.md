@@ -41,6 +41,8 @@ All scores are on the validation period.
 | 007a | 2026-11-26 | Ridge (alpha 1), 18 features | 14-day | 7.32 | 9.33% | Done |
 | 007b | 2026-11-26 | Ridge (alpha 100), 18 features | 14-day | 7.32 | 9.32% | Done |
 | 007c | 2026-11-26 | Ridge (alpha 1000), 18 features | 14-day | 7.30 | 9.30% | Done |
+| 008a | 2026-11-26 | HistGradientBoosting (depth 2), 18 features | 14-day | 7.17 | 9.13% | Done |
+| 008b | 2026-11-26 | HistGradientBoosting (depth 4), 18 features | 14-day | 7.24 | 9.23% | Done |
 
 ## Experiments
 
@@ -138,6 +140,16 @@ All scores are on the validation period.
 - **Observations:** a thousandfold change in strength moved MAE by 0.03, so
   regularization is not the limiting factor. All three are rated worse than
   the bar (7.16).
+
+### 008: Gradient boosting depth
+
+**Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
+
+- **Goal:** test whether tree depth matters.
+- **Method:** as 006 with depth 2 and 4.
+- **Results:** MAE 7.17 (depth 2) and 7.24 (depth 4); 006 at depth 3 was 7.13.
+- **Observations:** all three depths are within 0.10 of the bar and rated
+  tied; depth has no meaningful effect.
 
 ## Planned experiments (fixed on 2026-11-26, before running)
 
