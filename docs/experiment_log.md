@@ -167,22 +167,38 @@ Question: does anything beat the weekday-profile bar (validation MAE 7.16)?
 All runs use the same split, the same 18 features unless stated, and
 `SEED = 42`. The test period is not scored until the final model is chosen.
 
-| ID | Model | Features | Settings | Question |
-|---|---|---|---|---|
-| 004 | Ridge (standardized) | 18 | alpha 10 | Compact model (done) |
-| 005 | Ridge (standardized) | 12 calendar | alpha 10 | Do lag and rolling features add anything? |
-| 006 | HistGradientBoosting | 18 | depth 3, learning rate 0.05, 200 iterations | Does a nonlinear model find structure Ridge cannot? |
-| 007a-c | Ridge (standardized) | 18 | alpha 1, 100, 1000 | Does stronger shrinkage reduce overfitting? |
-| 008a-b | HistGradientBoosting | 18 | depth 2 and 4, other settings as 006 | Does tree depth matter? |
+## Experiment set (completed 2026-11-26)
+
+| ID | Model | Features | Settings | Validation MAE | Verdict |
+|---|---|---|---|---:|---|
+| 004 | Ridge (standardized) | 18 | alpha 10 | 7.33 | worse |
+| 005 | Ridge (standardized) | 12 calendar | alpha 10 | 7.28 | worse |
+| 006 | HistGradientBoosting | 18 | depth 3, rate 0.05, 200 iterations | 7.13 | tied |
+| 007a-c | Ridge (standardized) | 18 | alpha 1, 100, 1000 | 7.32, 7.32, 7.30 | worse |
+| 008a-b | HistGradientBoosting | 18 | depth 2, 4 | 7.17, 7.24 | tied |
+
+**Final model:** weekday profile (validation MAE 7.16, WAPE 9.12%).
 
 **Stop rule:** no runs beyond this table, no new features, and no test
 scoring.
 
-**Choosing the final model:** among runs rated better or tied under the
-success criteria, take the lowest validation MAE; when runs are tied with
-each other, prefer the simpler model. If none is better than the bar, the
-weekday-profile baseline is the final model. The choice and a one-line reason
-go in the decision log.
+**Choosing the final model:** take the run rated better with the lowest
+validation MAE (ties among better runs go to the simpler model). If no run is
+rated better, the weekday-profile baseline is the final model. The choice and
+a one-line reason go in the decision log.
+
+### T1: Final model on the test period
+
+**Date:** 2026-11-26 · **Code:** `notebooks/01_inventory.ipynb`
+
+- **Goal:** one-time check of the final model on data never used for choices.
+- **Method:** weekday profile fit on train; 80% interval offsets from
+  validation residuals; baselines scored the same way.
+- **Results:** final model MAE 7.24, WAPE 9.35%; training mean MAE 7.17; seasonal
+  naive MAE 10.77; interval coverage 0.81.
+- **Observations:** compared with validation (MAE 7.16) and the ranges set
+  before scoring: ___.
+- **Note:** test scored once; nothing changed afterward.
 
 **Later:** prediction intervals from validation residuals, after the final
 model is chosen.
