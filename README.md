@@ -23,6 +23,14 @@ Models are compared on validation using MAE and WAPE against a weekly
 seasonal-naive baseline and a training-mean baseline. The test period is
 scored once, after the model is chosen.
 
+### Prediction intervals
+Each forecast comes with an 80% interval: the forecast plus the 10th and
+90th percentiles of the final model's validation errors (about -10.8 and
++12.5 loads). The width is the same for every day. Calibrating on one half of
+the validation period and checking on the other gave coverage of 69% and 86%
+against a nominal 80%. The intervals assume future errors look like the 84
+validation errors and do not adapt to unusual days.
+
 ### Success criteria
 Set on 2026-11-24, before any model was scored.
 
