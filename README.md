@@ -235,3 +235,8 @@ anomalies, so the real false-alarm rate is unknown; alerts echo for two days
 after an anomaly; smaller anomalies than those injected would be missed;
 signals are company-wide, so alerts cannot say which route or region; and the
 detector is not yet connected to the API or dashboard.
+
+Drivers and error patterns of the final model are described in
+[`docs/model_review.md`](docs/model_review.md). The main finding: the forecast
+is essentially a weekday average, errors show no weekday, seasonal, or route
+pattern beyond random variation, and the data is synthetic.
