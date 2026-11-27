@@ -211,3 +211,27 @@ same score on the clean training days (volume 1.26, late rate 1.26,
 detention 1.35). On clean training days this raises about 1.1% of signal-days
 (30 of 2,763). Thresholds were frozen on 2026-11-28 before any evaluation on
 the injected validation data.
+
+### Anomaly detection results
+The frozen detector (thresholds set on clean training days) was scored on 20
+random draws of injected anomalies in the validation signals (120 windows):
+
+| Signal | Windows detected | Alerts | Correct alerts | Precision |
+|---|---:|---:|---:|---:|
+| Volume drop (20%, 5 days) | 39 of 40 | 133 | 117 | 0.88 |
+| Late-rate spike (+10 points, 4 days) | 38 of 40 | 119 | 95 | 0.80 |
+| Detention rise (+30 minutes, 5 days) | 40 of 40 | 215 | 161 | 0.75 |
+| **All** | **117 of 120 (0.98)** | 467 | 373 | **0.80** |
+
+All 94 alerts counted as false fell within two days after a window ended (the
+3-day average carries an anomaly forward); none fell on days away from an
+anomaly. On validation days with no injection the detector raised no alerts
+(0 of 252 signal-days). At most 3 alerts can fire per day, under the budget of
+10.
+
+Limitations: anomalies are simple step changes in daily totals; the 20 draws
+reuse the same 84 days and are not independent; the data contains no real
+anomalies, so the real false-alarm rate is unknown; alerts echo for two days
+after an anomaly; smaller anomalies than those injected would be missed;
+signals are company-wide, so alerts cannot say which route or region; and the
+detector is not yet connected to the API or dashboard.

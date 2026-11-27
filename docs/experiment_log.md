@@ -207,6 +207,20 @@ a one-line reason go in the decision log.
 **Later:** prediction intervals from validation residuals, after the final
 model is chosen.
 
+### A1: Frozen anomaly detector on injected anomalies
+
+**Date:** 2026-11-30 · **Code:** `src/anomaly_eval.py`, `notebooks/02_anomalies.ipynb`
+
+- **Goal:** measure how well the frozen detector finds injected anomalies.
+- **Method:** thresholds from `reports/anomaly_thresholds.json`; 20 injected
+  draws (seeds 42 to 61) on the validation signals.
+- **Results:** recall 117 of 120 windows (0.98); precision 0.80 (373 of 467
+  alerts inside a window); detention recall 1.00, late rate 0.95, volume 0.98.
+- **Observations:** all 94 counted-false alerts were echoes within two days
+  after a window ended; none occurred away from anomalies. Three missed windows
+  had peaks just under the threshold.
+- **Next:** test a shorter average on fresh draws (follow-up, not done).
+
 <!-- Template for new entries:
 ### NNN: Short name
 **Date:** YYYY-MM-DD · **Code:** path to notebook or script
